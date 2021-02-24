@@ -1,0 +1,119 @@
+{% extends "defaut.html" %}
+{% block content %}
+
+
+<main class="container-fluid h-100">
+    <img class="mb-4" src="{{ url_for('static', filename='icons8-horloge-64.png') }}" alt="" >
+    <div class="row align-items-start h-70">
+        <div class="col-6 h-100">
+            <div class="form-control h-auto">
+                <form action="/inserer" method="post" onsubmit="return validerHeures();">
+                    <h1 class="h3 fw-normal">Feuille de temps</h1>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                {% if matricule_id %}
+                                <label for="staticMatricule" class="col-form-label">Matricule</label>
+                                <div class="col">
+                                    <input type="text" readonly class="form-control-plaintext" id="staticMatricule"
+                                           name="matricule_id" value="{{ matricule_id }}">
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                {% if date_du_jour %}
+                                <label for="staticDate" class="col-form-label">Date</label>
+                                <div class="col">
+                                    <input type="text" readonly class="form-control-plaintext" id="staticDate"
+                                           name="date_du_jour" value="{{ date_du_jour }}">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="" for="code_de_projet">Code de projet</label>
+                            <input autofocus="" class="form-control" id="code_de_projet" name="code_de_projet" placeholder="Code du projet"
+                                   required="" type="text" aria-describedby="code_aide"
+                                   pattern="[a-zA-Z0-9]{15}" title="Veuillez respecter le format">
+                            <small id="code_aide" class="form-text text-muted">Code de 15 charactères requis.</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="" for="duree">Duree du projet</label>
+                            <input class="form-control" id="duree" name="duree" placeholder="Duree du projet"
+                                   type="number" aria-describedby="duree_aide"
+                                   required="" autofocus=""
+                                   min="1" max="1440"
+                                   title="Veuillez respecter le format. 1 à 1440 minutes"
+                            >
+                            <small id="duree_aide" class="form-text text-muted">Insertion en minutes.(Max : 1440)</small>
+                        </div>
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{error}}
+                       </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-info" type="submit">Soumettre</button>
+                        <button class="btn btn-lg btn-info" type="reset">Effacer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6 h-100">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-control h-auto">
+                        {% if date_du_jour%}
+                        <p class="display-4">{{ date_du_jour }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-control h-auto">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Code de projet</th>
+                                <th scope="col">Dur&eacute;e (min.)</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for heure in heures %}
+                            <tr>
+                                <td>{{ heure.id }}</td>
+                                <td>{{ heure.code_de_projet }}</td>
+                                <td>{{ heure.duree }}</td>
+                                <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-cog"></i>
+                                </button>
+                                </td>
+                                <td><button class="btn btn-sm btn-info"><i class="fa fa-close"></i></button></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row offset-8">
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-info" type="button">Précédent</button>
+                            <button class="btn btn-lg btn-info" type="button">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-end h-auto">
+        <div class="col">
+            <p class="mt-5 mb-3 text-muted">Yan-Alexandre Leclerc <br>
+                LECY20069604
+            </p>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

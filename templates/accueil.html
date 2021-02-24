@@ -1,0 +1,35 @@
+{% extends "defaut.html" %}
+{% block content %}
+
+<main class="form-signin">
+    <img class="mb-4" src="{{ url_for('static', filename='icons8-horloge-64.png') }}" alt="" >
+    <form action="/" method="post" name="form_matricule" onsubmit='return validerMatricule();'>
+        <div class="form-control">
+            <h1 class="h3 mb-3 fw-normal">Veuillez ins&eacute;rer votre Matricule</h1>
+            <div class="form-group">
+                <label for="matricule_id" class="invisible">Num&eacute;ro de matricule</label>
+                <input type="text" id="matricule_id" name="matricule_id" class="form-control"
+                       placeholder="Num&eacute;ro de matricule" autofocus=""
+                       aria-describedby="matricule_aide">
+                <span class="alert-danger" id="invalid_matricule">
+                 </span>
+                {% if error %}
+                <div class="alert alert-danger" role="alert" id="erreur_matricule">
+                    {{error}}
+                </div>
+                {% endif %}
+                <input  id='date_du_jour' name='date_du_jour' type='hidden'>
+            </div>
+            <button class="w-100 btn btn-lg btn-info" type="submit">
+                Valider</button>
+        </div>
+    </form>
+    <p class="mt-5 mb-3 text-muted">Yan-Alexandre Leclerc <br>
+        LECY20069604
+    </p>
+    <script>
+        document.getElementById("date_du_jour").value = new Date().toISOString().slice(0, 10);
+    </script>
+</main>
+
+{% endblock %}
